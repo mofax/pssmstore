@@ -1,0 +1,40 @@
+{
+	"name": "pssmstore",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"dev": "bun run --hot appserver/bun-main.ts",
+		"fmt": "deno fmt --use-tabs",
+		"db:push": "prisma generate && prisma db push",
+		"db:seed": "bun run prisma/seed/seed.ts",
+		"routes:generate": "tsr generate",
+		"routes:watch": "tsr watch"
+	},
+	"devDependencies": {
+		"@tanstack/router-cli": "^1.0.0",
+		"@types/bun": "latest",
+		"@types/qs": "^6.14.0",
+		"@types/react": "^19.2.7",
+		"@types/react-dom": "^19.2.3",
+		"bun-plugin-tailwind": "^0.1.2",
+		"tailwindcss": "^4.1.18"
+	},
+	"dependencies": {
+		"@noble/ciphers": "^2.1.1",
+		"@noble/hashes": "^1.6.0",
+		"@prisma/adapter-better-sqlite3": "^7.2.0",
+		"@prisma/adapter-libsql": "^7.2.0",
+		"@prisma/client": "^7.2.0",
+		"@tanstack/query-db-collection": "^1.0.12",
+		"@tanstack/react-db": "^0.1.60",
+		"@tanstack/react-router": "^1.0.0",
+		"arktype": "^2.1.29",
+		"postgres": "^3.4.7",
+		"prisma": "^7.2.0",
+		"qs": "^6.14.0",
+		"react": "^19.2.3",
+		"react-dom": "^19.2.3",
+		"tailwind-merge": "^3.4.0"
+	}
+}

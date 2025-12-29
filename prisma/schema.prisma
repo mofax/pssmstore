@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model identities {
+  id         String     @id
+  username   String     @unique
+  email      String     @unique
+  password   String
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  // relations
+  sessions   sessions[]
+}
+
+model sessions {
+  id           String     @id
+  user_id      String
+  token        String     @unique
+  expires_at   DateTime
+  created_at   DateTime   @default(now())
+  // relations
+  user         identities @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@index([token])
+}
+
+model folders {
+  id         String   @id
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+  // relations
+  pages      pages[]
+
+  @@index([created_at])
+}
+
+model pages {
+  id         String    @id
+  name       String
+  folder_id  String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  // relations
+  folder     folders   @relation(fields: [folder_id], references: [id])
+  secrets    secrets[]
+}
+
+model secrets {
+  id         String   @id
+  page_id    String
+  key        String
+  value      String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+  // relations
+  page       pages    @relation(fields: [page_id], references: [id])
+
+  @@unique([page_id, key])
+  @@index([page_id])
+}
